@@ -1,0 +1,1597 @@
+<!DOCTYPE html>
+<html lang="sr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TROKUT PARTY APP</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><polygon points='12,2 22,20 2,20' fill='%2363c74d'/></svg>">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --sims-party-bg-1: #1995ff;
+            --sims-party-bg-2: #00edd1;
+            --sims-card-bg: rgba(255, 255, 255, 0.65);
+            --sims-card-border: rgba(255, 255, 255, 0.9);
+            --sims-card-shadow: rgba(0, 50, 100, 0.2);
+            --sims-text-dark: #1b365d;
+            --sims-text-muted: #486a92;
+            --sims-bright-blue: #0077e6;
+            --sims-green: #43a047;
+            --sims-green-glow: #2e7d32;
+            --sims-green-badge: #63c74d;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+            text-rendering: optimizeLegibility;
+        }
+
+        body {
+            font-family: 'Nunito', 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: linear-gradient(135deg, var(--sims-party-bg-1) 0%, var(--sims-party-bg-2) 100%);
+            background-size: 135% 135%;
+            background-position: 0% 0%;
+            animation: calmDiagonalWave 18s ease-in-out infinite;
+            color: var(--sims-text-dark);
+            margin: 0;
+            padding: 20px 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Polako i smirujuće talasanje u postojećim bojama od gore levo ka dole desno */
+        @keyframes calmDiagonalWave {
+            0% {
+                background-position: 0% 0%;
+            }
+            50% {
+                background-position: 65% 65%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+
+        .confetti-layer {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1200;
+            overflow: hidden;
+        }
+
+        .confetti-piece {
+            position: absolute;
+            top: -18px;
+            width: 10px;
+            height: 16px;
+            border-radius: 3px;
+            opacity: 0.95;
+            animation: confettiFall linear forwards;
+        }
+
+        @keyframes confettiFall {
+            0% {
+                transform: translateY(-20px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(105vh) rotate(720deg);
+                opacity: 0.85;
+            }
+        }
+
+        .plumbob-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Jednakostranični uspravni trougao sa Plumbob stilom i animacijom */
+        .plumbob {
+            width: 30px;
+            height: 26px;
+            background: linear-gradient(135deg, #a3ff75, var(--sims-green-badge));
+            clip-path: polygon(50% 0%, 100% 100%, 0% 100%);
+            box-shadow: 0 0 16px rgba(99, 199, 77, 0.8);
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        .logo-sims-green {
+            color: #7dff57;
+            text-shadow: 0 2px 8px rgba(16, 82, 24, 0.55), 0 0 14px rgba(125, 255, 87, 0.45);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); filter: brightness(1); }
+            50% { transform: scale(1.1); filter: brightness(1.2); }
+            100% { transform: scale(1); filter: brightness(1); }
+        }
+
+        h1 {
+            font-size: 23px;
+            font-weight: 900;
+            margin: 0;
+            color: #ffffff;
+            text-shadow: 0 2px 6px rgba(0, 50, 100, 0.3);
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+        }
+
+        .card {
+            background: var(--sims-card-bg);
+            border: 2px solid var(--sims-card-border);
+            padding: 24px 20px;
+            border-radius: 22px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 12px 35px var(--sims-card-shadow);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            margin-bottom: 16px;
+        }
+
+        .helper-note {
+            font-size: 12px;
+            color: var(--sims-text-muted);
+            font-weight: 700;
+            line-height: 1.4;
+            margin-bottom: 10px;
+        }
+
+        .btn-hint {
+            font-size: 11px;
+            color: var(--sims-text-muted);
+            text-align: center;
+            font-weight: 700;
+            line-height: 1.35;
+            margin-top: 3px;
+        }
+
+        .bar-container {
+            margin: 12px 0;
+        }
+
+        .bar-label {
+            font-size: 12px;
+            font-weight: 800;
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            color: var(--sims-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .bar {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.5);
+            border-radius: 6px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .fill {
+            height: 100%;
+            width: 80%;
+            background: linear-gradient(90deg, #66bb6a, var(--sims-green));
+            border-radius: 5px;
+            transition: width 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .fill-drunk {
+            background: linear-gradient(90deg, #ffa726, #e91e63);
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            margin-bottom: 15px;
+            border-radius: 14px;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.7);
+            color: var(--sims-text-dark);
+            font-size: 15px;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+
+        input[type="text"]:focus, input[type="password"]:focus {
+            border-color: var(--sims-bright-blue);
+            box-shadow: 0 0 10px rgba(0, 119, 230, 0.25);
+            background: rgba(255, 255, 255, 0.95);
+        }
+
+        input[type="text"]::placeholder, input[type="password"]::placeholder {
+            color: #7b9ab9;
+        }
+
+        .password-wrapper {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .password-wrapper input {
+            margin-bottom: 0 !important;
+            padding-right: 45px;
+        }
+
+        .toggle-password {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            user-select: none;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .toggle-password:hover {
+            opacity: 1;
+        }
+
+        .section-title {
+            font-size: 12px;
+            color: var(--sims-bright-blue);
+            margin: 16px 0 8px 0;
+            text-align: left;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            padding-bottom: 4px;
+        }
+
+        .avatar-slider {
+            display: flex;
+            gap: 10px;
+            overflow-x: auto;
+            padding: 10px 0;
+            margin-bottom: 15px;
+            scroll-behavior: smooth;
+            scrollbar-width: thin;
+            scrollbar-color: var(--sims-bright-blue) rgba(255,255,255,0.3);
+        }
+
+        .avatar-slider::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .avatar-slider::-webkit-scrollbar-thumb {
+            background: var(--sims-bright-blue);
+            border-radius: 3px;
+        }
+
+        .avatar-option {
+            flex: 0 0 auto;
+            background: rgba(255, 255, 255, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 14px;
+            width: 52px;
+            height: 52px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 28px;
+        }
+
+        .avatar-option:hover {
+            border-color: var(--sims-bright-blue);
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .avatar-option.selected {
+            border-color: var(--sims-bright-blue);
+            background: rgba(187, 222, 251, 0.9);
+            box-shadow: 0 0 10px rgba(0, 119, 230, 0.3);
+            transform: scale(1.08);
+        }
+
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 14px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 700;
+            color: var(--sims-text-dark);
+            user-select: none;
+        }
+
+        .checkbox-container input[type="checkbox"] {
+            display: none;
+        }
+
+        .sims-checkbox {
+            width: 22px;
+            height: 22px;
+            background: rgba(255, 255, 255, 0.7);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .checkbox-container input[type="checkbox"]:checked + .sims-checkbox {
+            background: linear-gradient(135deg, #a3ff75, var(--sims-green));
+            border-color: #2e7d32;
+            box-shadow: 0 0 8px rgba(67, 160, 71, 0.4);
+        }
+
+        .checkbox-container input[type="checkbox"]:checked + .sims-checkbox::after {
+            content: '✓';
+            font-size: 13px;
+            color: #ffffff;
+            font-weight: 900;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
+
+        button.sims-btn {
+            background: linear-gradient(to bottom, #2196F3, #1565C0);
+            color: white;
+            border: 1px solid #64b5f6;
+            padding: 13px 20px;
+            border-radius: 24px;
+            cursor: pointer;
+            font-weight: 800;
+            width: 100%;
+            font-size: 14px;
+            font-family: inherit;
+            letter-spacing: 0.5px;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 15px rgba(21, 101, 192, 0.35);
+            transition: all 0.2s ease;
+            margin-top: 8px;
+        }
+
+        button.sims-btn:hover {
+            filter: brightness(1.08);
+            transform: translateY(-1px);
+            box-shadow: 0 6px 18px rgba(21, 101, 192, 0.45);
+        }
+
+        button.sims-btn:active {
+            transform: scale(0.98);
+        }
+
+        button.sims-btn:disabled {
+            background: rgba(15, 42, 74, 0.72);
+            border-color: rgba(255, 255, 255, 0.55);
+            color: #ffffff;
+            cursor: not-allowed;
+            box-shadow: none;
+            text-shadow: 0 1px 3px rgba(0, 0, 0, 0.65);
+            transform: none;
+            filter: none;
+            opacity: 1;
+        }
+
+        .quiz-option-btn {
+            background: rgba(255, 255, 255, 0.94);
+            border: 2px solid #90caf9;
+            color: var(--sims-text-dark);
+            padding: 12px 14px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 13.5px;
+            font-weight: 800;
+            font-family: inherit;
+            line-height: 1.4;
+            width: 100%;
+            margin-bottom: 8px;
+            text-align: left;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 8px rgba(0, 50, 100, 0.1);
+        }
+
+        .quiz-option-btn:hover:not(:disabled) {
+            background: #e3f2fd;
+            border-color: var(--sims-bright-blue);
+            transform: translateY(-1px);
+        }
+
+        .quiz-option-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .quiz-option-btn.selected-opt {
+            background: #bbdefb;
+            border-color: #1565C0;
+            color: #0d47a1;
+            opacity: 1;
+        }
+
+        .quiz-timer-badge {
+            display: inline-block;
+            background: #ffebee;
+            color: #d32f2f;
+            border: 1px solid #ef9a9a;
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-size: 13px;
+            font-weight: 900;
+            margin-bottom: 10px;
+        }
+
+        .ready-status-box {
+            background: #f4f9fc;
+            border: 1px solid #b8d4e5;
+            border-radius: 14px;
+            padding: 12px;
+            font-size: 13px;
+            text-align: left;
+            margin-top: 10px;
+        }
+
+        .neighborhood-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+            margin: 12px 0;
+        }
+
+        .neighbor-badge {
+            background: rgba(255, 255, 255, 0.65);
+            border: 2px solid rgba(255, 255, 255, 0.9);
+            border-radius: 16px;
+            padding: 10px 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .neighbor-badge:hover {
+            border-color: var(--sims-bright-blue);
+            background: rgba(255, 255, 255, 0.9);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 119, 230, 0.15);
+        }
+
+        .neighbor-avatar {
+            font-size: 26px;
+            margin-bottom: 4px;
+        }
+
+        .neighbor-name {
+            font-size: 11px;
+            color: var(--sims-text-dark);
+            font-weight: 700;
+            text-align: center;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .birthday-badge {
+            position: absolute;
+            top: -6px;
+            right: -6px;
+            font-size: 13px;
+            background: #fff;
+            border-radius: 50%;
+            padding: 2px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+        }
+
+        #action-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 30, 60, 0.5);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 998;
+            padding: 20px;
+        }
+
+        .action-modal-content {
+            background: rgba(255, 255, 255, 0.88);
+            border: 2px solid #64b5f6;
+            border-radius: 22px;
+            padding: 22px;
+            width: 100%;
+            max-width: 340px;
+            box-shadow: 0 12px 35px rgba(0, 50, 100, 0.3);
+            animation: bounceIn 0.25s ease-out;
+            backdrop-filter: blur(12px);
+        }
+
+        .action-buttons-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .action-buttons-grid button {
+            background: rgba(255, 255, 255, 0.85);
+            border: 1px solid #90caf9;
+            color: var(--sims-text-dark);
+            padding: 11px;
+            border-radius: 16px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 700;
+            transition: all 0.2s;
+        }
+
+        .action-buttons-grid button:hover {
+            background: #e3f2fd;
+            border-color: var(--sims-bright-blue);
+            color: #0d47a1;
+        }
+
+        .dropdown-container {
+            position: relative;
+            margin-top: 10px;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #ffb74d;
+            border-radius: 16px;
+            margin-top: 5px;
+            display: none;
+            flex-direction: column;
+            z-index: 10;
+            box-shadow: 0 10px 25px rgba(0,50,100,0.2);
+            overflow: hidden;
+            backdrop-filter: blur(10px);
+        }
+
+        .dropdown-item {
+            padding: 10px 14px;
+            font-size: 13px;
+            color: #e65100;
+            cursor: pointer;
+            border-bottom: 1px solid #ffe0b2;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: background 0.2s;
+            font-weight: 700;
+        }
+
+        .dropdown-item:hover {
+            background: #fff3e0;
+        }
+
+        #notification-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 30, 60, 0.5);
+            backdrop-filter: blur(6px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.94);
+            border: 2px solid #ffa726;
+            border-radius: 22px;
+            padding: 24px 20px;
+            width: 100%;
+            max-width: 380px;
+            text-align: center;
+            box-shadow: 0 12px 35px rgba(0, 50, 100, 0.3);
+            animation: bounceIn 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            backdrop-filter: blur(12px);
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0.8); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .log-box {
+            background: rgba(255, 255, 255, 0.55);
+            padding: 12px;
+            border-radius: 16px;
+            height: 160px;
+            overflow-y: auto;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 14px;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .log-item {
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid #d4e5f2;
+            border-left: 4px solid #2196F3;
+            padding: 9px 12px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: var(--sims-text-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1.4;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.03);
+        }
+
+        .log-item.chaos {
+            background: rgba(243, 229, 245, 0.85);
+            border: 1px solid #ce93d8;
+            border-left: 4px solid #9c27b0;
+            color: #4a148c;
+            font-weight: 700;
+        }
+
+        .log-item.duel {
+            background: rgba(255, 248, 225, 0.85);
+            border: 1px solid #ffe082;
+            border-left: 4px solid #ffa000;
+            color: #e65100;
+            font-weight: 700;
+        }
+
+        h3 {
+            font-size: 13px;
+            color: var(--sims-bright-blue);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+            padding-bottom: 6px;
+            margin: 22px 0 10px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .app-footer {
+            margin-top: 10px;
+            margin-bottom: 18px;
+            font-size: 15px;
+            font-weight: 800;
+            color: rgba(255, 255, 255, 0.95);
+            text-shadow: 0 2px 6px rgba(0, 50, 100, 0.4);
+            text-align: center;
+            letter-spacing: 0.6px;
+        }
+
+        .app-footer a {
+            color: #7dff57;
+            font-weight: 900;
+            text-decoration: none;
+            border-bottom: 1px solid rgba(125, 255, 87, 0.65);
+            padding-bottom: 1px;
+            transition: opacity 0.2s, border-color 0.2s;
+        }
+
+        .app-footer a:hover {
+            opacity: 0.85;
+            border-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="confetti-layer" class="confetti-layer"></div>
+
+    <div id="action-modal">
+        <div class="action-modal-content">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+                <h3 id="target-sim-title" style="margin:0; border:none; color: var(--sims-text-dark); font-size: 16px;"></h3>
+                <span onclick="closeActionModal()" style="cursor: pointer; font-size: 18px; color: var(--sims-text-muted);">✕</span>
+            </div>
+            <div class="helper-note" style="margin-bottom: 8px;">Izaberi akciju koja menja raspoloženje — ponovi istu 3 puta za SPAM ALERT!</div>
+            
+            <div class="action-buttons-grid">
+                <button onclick="sendActionFromModal('chat')">💬 Ćaskaj</button>
+                <button onclick="sendActionFromModal('joke')">😂 Vic</button>
+                <button onclick="sendActionFromModal('hug')">🫂 Zagrljaj</button>
+                <button onclick="sendActionFromModal('gossip')">🤫 Tračari</button>
+                <button onclick="sendActionFromModal('flirt')">💖 Flertuj</button>
+                <button onclick="sendActionFromModal('dance')">💃 Ples</button>
+                <button onclick="sendActionFromModal('insult', true)" style="grid-column: span 2; background: rgba(255, 235, 238, 0.9); border-color: #ef9a9a; color: #c62828;">💢 Vređaj</button>
+            </div>
+
+            <div style="margin-top: 12px;">
+                <input type="text" id="modal-custom-text" placeholder="Ili unesi prilagođenu akciju..." autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" style="margin-bottom: 8px;">
+                <button class="sims-btn" onclick="sendCustomActionFromModal()" style="margin-top:0; background: linear-gradient(to bottom, #43a047, #2e7d32); border-color: #81c784;">⚡ Izvrši akciju</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="notification-modal">
+        <div class="modal-content">
+            <div id="modal-icon" style="font-size: 38px; margin-bottom: 6px;">🔥</div>
+            <h2 id="modal-title" style="color: #e65100; font-size: 20px; margin: 0 0 8px 0; text-transform: uppercase; letter-spacing: 1px;"></h2>
+            <div id="modal-msg" style="font-size: 15px; color: #37474f; margin-bottom: 20px; line-height: 1.5;"></div>
+            <div id="modal-buttons" style="display: flex; gap: 8px; justify-content: center; flex-wrap: wrap;"></div>
+        </div>
+    </div>
+
+    <div class="plumbob-header">
+        <div class="plumbob"></div>
+        <h1>TROKUT <span class="logo-sims-green">PARTY</span> APP</h1>
+    </div>
+
+    <!-- LOBI -->
+    <div id="login-screen" class="card" style="text-align: center;">
+        <h2 style="color: var(--sims-text-dark); font-size: 16px; margin-top: 0; margin-bottom: 6px; text-transform: uppercase; letter-spacing: 1px;">Interaktivni demo za događaje i žurke</h2>
+        <div class="helper-note">Uđi u ulogu slavljenika/ce i isprobaj kako aplikacija spaja goste uživo, kviz i haos u sobi.</div>
+        
+        <div class="section-title">Slajder avatara (skroluj levo-desno)</div>
+        <div class="avatar-slider" id="avatar-slider">
+            <div class="avatar-option selected" onclick="chooseAvatar('🧔', this)">🧔</div>
+            <div class="avatar-option" onclick="chooseAvatar('👱‍♂️', this)">👱‍♂️</div>
+            <div class="avatar-option" onclick="chooseAvatar('👨', this)">👨</div>
+            <div class="avatar-option" onclick="chooseAvatar('👱‍♀️', this)">👱‍♀️</div>
+            <div class="avatar-option" onclick="chooseAvatar('👩‍🦰', this)">👩‍🦰</div>
+            <div class="avatar-option" onclick="chooseAvatar('👩', this)">👩</div>
+            <div class="avatar-option" onclick="chooseAvatar('👴', this)">👴</div>
+            <div class="avatar-option" onclick="chooseAvatar('👵', this)">👵</div>
+            <div class="avatar-option" onclick="chooseAvatar('👶', this)">👶</div>
+            <div class="avatar-option" onclick="chooseAvatar('🤠', this)">🤠</div>
+            <div class="avatar-option" onclick="chooseAvatar('🥳', this)">🥳</div>
+            <div class="avatar-option" onclick="chooseAvatar('😎', this)">😎</div>
+            <div class="avatar-option" onclick="chooseAvatar('🤡', this)">🤡</div>
+            <div class="avatar-option" onclick="chooseAvatar('🤖', this)">🤖</div>
+            <div class="avatar-option" onclick="chooseAvatar('👽', this)">👽</div>
+            <div class="avatar-option" onclick="chooseAvatar('👻', this)">👻</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐶', this)">🐶</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐱', this)">🐱</div>
+            <div class="avatar-option" onclick="chooseAvatar('🦊', this)">🦊</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐼', this)">🐼</div>
+            <div class="avatar-option" onclick="chooseAvatar('🦁', this)">🦁</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐯', this)">🐯</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐰', this)">🐰</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐨', this)">🐨</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐵', this)">🐵</div>
+            <div class="avatar-option" onclick="chooseAvatar('🦄', this)">🦄</div>
+            <div class="avatar-option" onclick="chooseAvatar('🦒', this)">🦒</div>
+            <div class="avatar-option" onclick="chooseAvatar('🐸', this)">🐸</div>
+        </div>
+
+        <div style="margin-top: 14px;">
+            <input type="text" id="username" placeholder="Unesi ime svog lika..." autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false">
+            
+            <label class="checkbox-container" id="birthday-label">
+                <input type="checkbox" id="is-birthday-girl" checked onchange="toggleBirthdayPassword()">
+                <div class="sims-checkbox"></div>
+                <span id="birthday-text">🎂 Ja sam slavljenik/ca</span>
+            </label>
+
+            <div id="birthday-password-container" style="display: block; margin-bottom: 6px;">
+                <div class="password-wrapper">
+                    <input type="password" id="birthday-password" value="tr0kut.design" placeholder="Šifra..." autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false">
+                    <span class="toggle-password" onclick="togglePasswordVisibility()" id="eye-icon">👁️</span>
+                </div>
+            </div>
+
+            <button class="sims-btn" onclick="joinGame()">Uđi na demo žurku</button>
+            <div class="btn-hint">Demo šifra je već spremna — samo klikni i kreni sa testiranjem.</div>
+        </div>
+    </div>
+
+    <!-- GLAVNI EKRAN -->
+    <div id="game-screen" class="card" style="display: none;">
+        <div style="margin-bottom: 18px; text-align: center; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <span id="my-birthday-icon" style="font-size: 22px;">🎂</span>
+            <span style="font-size: 20px; font-weight: 800; color: var(--sims-green-glow); letter-spacing: 0.5px;" id="my-name"></span>
+        </div>
+        
+        <div class="bar-container">
+            <div class="bar-label"><span>Društvenost (Social)</span><span><span id="val-social">85</span>%</span></div>
+            <div class="bar"><div id="bar-social" class="fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="bar-container">
+            <div class="bar-label"><span>Zabava (Fun)</span><span><span id="val-fun">85</span>%</span></div>
+            <div class="bar"><div id="bar-fun" class="fill" style="width: 85%;"></div></div>
+        </div>
+        <div class="bar-container">
+            <div class="bar-label"><span>Pijanost (Drunk)</span><span><span id="val-drunk">0</span>%</span></div>
+            <div class="bar"><div id="bar-drunk" class="fill fill-drunk" style="width: 0%;"></div></div>
+        </div>
+
+        <h3>Gosti u demo sobi</h3>
+        <div class="helper-note" style="margin-bottom: 6px;">Klikni na bilo kog gosta da pošalješ akciju i vidiš promenu skorova.</div>
+        <div id="neighborhood-grid" class="neighborhood-grid"></div>
+
+        <h3 style="margin-top: 24px;">Žurka eventovi</h3>
+        <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 12px;">
+            <div>
+                <button id="chaos-btn" class="sims-btn" onclick="triggerChaos()" style="background: linear-gradient(to bottom, #8e24aa, #6a1b9a); border-color: #ba68c8; margin-top: 0;">🗣️ WooHoo</button>
+                <div class="btn-hint">Svi u glas viču Sims reč — brza grupna akcija koja diže zabavu.</div>
+            </div>
+
+            <div>
+                <button id="telephone-btn" class="sims-btn" onclick="triggerTelephone()" style="background: linear-gradient(to bottom, #00acc1, #00838f); border-color: #4dd0e1; margin-top: 0;">📞 Gluvi telefoni</button>
+                <div class="btn-hint">Tajna Sims fraza kruži ekipom uživo — idealno za smeh i druženje.</div>
+            </div>
+
+            <div id="quiz-btn-container" style="display: block;">
+                <button id="quiz-btn" class="sims-btn" onclick="triggerQuiz()" style="background: linear-gradient(to bottom, #e91e63, #ad1457); border-color: #f48fb1; margin-top: 0;">🧠 QUIZZ TIME!</button>
+                <div id="quiz-btn-hint" class="btn-hint" style="color: #ad1457; font-weight: 800;">Slavljenici pokreću kviz! Ko ih poznaje najbolje?</div>
+            </div>
+
+            <div class="dropdown-container">
+                <button id="duel-main-btn" class="sims-btn" onclick="toggleDuelDropdown()" style="background: linear-gradient(to bottom, #ff9800, #f57c00); border-color: #ffcc80; margin-top: 0; display: flex; justify-content: space-between; align-items: center;">
+                    <span>🍻 Izazovi na piće</span>
+                    <span id="dropdown-arrow" style="font-size: 12px; transition: transform 0.2s;">▼</span>
+                </button>
+                <div id="duel-dropdown-menu" class="dropdown-menu"></div>
+                <div class="btn-hint">Izaberi gosta iz padajućeg menija i pokreni brzi duel pića.</div>
+            </div>
+        </div>
+
+        <h3>Live Dnevnik</h3>
+        <div class="helper-note" style="margin-bottom: 6px;">Svi potezi, kvizovi i upozorenja u realnom vremenu na jednom mestu.</div>
+        <div id="log" class="log-box"></div>
+        
+        <button class="sims-btn" onclick="saveLog()" style="background: linear-gradient(to bottom, #43a047, #2e7d32); border-color: #81c784;">💾 Sačuvaj dnevnik žurke</button>
+        <div class="btn-hint">Preuzmi kompletan TXT zapis dešavanja iz demo sobe.</div>
+    </div>
+
+    <footer class="app-footer">
+        Made by <a href="https://www.instagram.com/tr0kut/" target="_blank" rel="noopener noreferrer">@tr0kut</a>
+    </footer>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let myId = '';
+        let selectedAvatar = '🧔';
+        let selectedTargetId = null;
+        let iAmReadyForQuiz = false;
+        let quizHostName = '';
+        let quizCountdownInterval = null;
+        let duelTimerInterval = null;
+        let activeSession = null;
+        let isJoined = false;
+        const globalTimers = {};
+
+        function escapeHtml(str) {
+            return String(str ?? '')
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        function launchConfetti(count = 65) {
+            const layer = document.getElementById('confetti-layer');
+            if (!layer) return;
+            layer.innerHTML = '';
+
+            const colors = ['#ff4081', '#ffeb3b', '#00e676', '#40c4ff', '#e040fb', '#ff6e40'];
+            for (let i = 0; i < count; i++) {
+                const piece = document.createElement('div');
+                piece.className = 'confetti-piece';
+                const leftPct = Math.random() * 100;
+                const delaySec = Math.random() * 1.1;
+                const durationSec = 2.4 + Math.random() * 1.8;
+                const color = colors[i % colors.length];
+                const sizeW = 7 + Math.random() * 7;
+                const sizeH = 11 + Math.random() * 10;
+
+                piece.style.left = leftPct + '%';
+                piece.style.backgroundColor = color;
+                piece.style.width = sizeW + 'px';
+                piece.style.height = sizeH + 'px';
+                piece.style.animationDelay = delaySec + 's';
+                piece.style.animationDuration = durationSec + 's';
+
+                layer.appendChild(piece);
+            }
+
+            setTimeout(() => {
+                if (layer) layer.innerHTML = '';
+            }, 4600);
+        }
+
+        function showBirthdayGreetingModal() {
+            launchConfetti(75);
+            playSoundWooHoo();
+            document.getElementById('modal-icon').innerText = '🎂';
+            document.getElementById('modal-title').style.color = '#c2185b';
+            document.getElementById('modal-title').innerText = 'SREĆAN ROĐENDAN';
+            document.getElementById('modal-msg').innerHTML = `
+                <div style="font-size: 21px; font-weight: 900; color: #ad1457; margin-bottom: 8px; letter-spacing: 0.5px;">
+                    SREĆAN ROĐENDAN 🎉🎈
+                </div>
+                <div style="font-size: 14px; color: #37474f;">
+                    Dobrodošli u TROKUT PARTY APP demo — klikni na goste, isprobaj eventove ili pokreni kviz! 🥂✨
+                </div>
+            `;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #e91e63, #ad1457); border-color: #f48fb1; margin-top:0;">Krećemo! 🥳</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+        }
+
+        socket.on('connect', () => {
+            myId = socket.id;
+            if (isJoined && activeSession) {
+                socket.emit('rejoin', activeSession);
+            }
+        });
+
+        function chooseAvatar(avatar, element) {
+            document.querySelectorAll('.avatar-option').forEach(el => el.classList.remove('selected'));
+            element.classList.add('selected');
+            selectedAvatar = avatar;
+        }
+
+        function toggleBirthdayPassword() {
+            const checkbox = document.getElementById('is-birthday-girl');
+            const passContainer = document.getElementById('birthday-password-container');
+            const passInput = document.getElementById('birthday-password');
+            if (checkbox.checked) {
+                passContainer.style.display = 'block';
+                if (!passInput.value.trim()) {
+                    passInput.value = 'tr0kut.design';
+                }
+            } else {
+                passContainer.style.display = 'none';
+            }
+        }
+
+        function togglePasswordVisibility() {
+            const passInput = document.getElementById('birthday-password');
+            const eyeIcon = document.getElementById('eye-icon');
+            if (passInput.type === 'password') {
+                passInput.type = 'text';
+                eyeIcon.innerText = '🙈';
+            } else {
+                passInput.type = 'password';
+                eyeIcon.innerText = '👁️';
+            }
+        }
+
+        function appendLogEntry(data, shouldPlaySound) {
+            const logBox = document.getElementById('log');
+            if (!logBox || !data || !data.message) return;
+
+            const item = document.createElement('div');
+            const isChaos = data.message.includes('WOOHOO') || data.message.includes('QUIZZ') || data.message.includes('SPREMNI');
+            const isDuel = data.message.includes('DUEL PIĆA') || data.message.includes('prihvatio') || data.message.includes('odbio');
+            const isPhone = data.message.includes('GLUVI TELEFONI');
+            const isSpam = data.message.includes('SPAM ALERT');
+
+            if (isChaos) {
+                item.className = 'log-item chaos';
+            } else if (isDuel || isPhone || isSpam) {
+                item.className = 'log-item duel';
+            } else {
+                item.className = 'log-item';
+            }
+
+            item.innerHTML = `<span style="font-size: 18px; flex-shrink: 0;">${escapeHtml(data.avatar || '✨')}</span> <span>${escapeHtml(data.message)}</span>`;
+
+            logBox.appendChild(item);
+            logBox.scrollTop = logBox.scrollHeight;
+
+            if (shouldPlaySound) {
+                if (isChaos) playSoundWooHoo();
+                if (isPhone) playSoundTelephone();
+            }
+        }
+
+        socket.on('log_history', (historyList) => {
+            const logBox = document.getElementById('log');
+            if (!logBox || !Array.isArray(historyList)) return;
+            logBox.innerHTML = '';
+            historyList.forEach(entry => appendLogEntry(entry, false));
+        });
+
+        socket.on('quiz_used_status', (data) => {
+            const quizBtn = document.getElementById('quiz-btn');
+            if (quizBtn) {
+                quizBtn.disabled = !!data.used;
+                quizBtn.innerText = data.used ? '🧠 QUIZZ TIME! (U toku...)' : '🧠 QUIZZ TIME!';
+            }
+        });
+
+        socket.on('join_error', (msg) => alert(msg));
+        socket.on('birthday_error', (msg) => alert(msg));
+
+        socket.on('join_success', (data) => {
+            isJoined = true;
+            activeSession = {
+                name: data.name,
+                avatar: data.avatar,
+                isBirthdayGirl: true,
+                birthdayPassword: document.getElementById('birthday-password').value || 'tr0kut.design'
+            };
+
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'block';
+            document.getElementById('my-name').innerText = data.avatar + ' ' + data.name;
+            document.getElementById('my-birthday-icon').style.display = 'inline';
+            document.getElementById('quiz-btn-container').style.display = 'block';
+
+            if (data.showBirthdayGreeting) {
+                showBirthdayGreetingModal();
+            }
+        });
+
+        socket.on('update_players', (players) => {
+            myId = socket.id;
+            const gridEl = document.getElementById('neighborhood-grid');
+            if (!gridEl) return;
+            gridEl.innerHTML = '';
+
+            const dropdownMenu = document.getElementById('duel-dropdown-menu');
+            dropdownMenu.innerHTML = '';
+
+            for (const id in players) {
+                const player = players[id];
+
+                if (id === myId) {
+                    document.getElementById('val-social').innerText = player.social;
+                    document.getElementById('bar-social').style.width = player.social + '%';
+                    document.getElementById('val-fun').innerText = player.fun;
+                    document.getElementById('bar-fun').style.width = player.fun + '%';
+                    document.getElementById('val-drunk').innerText = player.drunk;
+                    document.getElementById('bar-drunk').style.width = player.drunk + '%';
+                    continue;
+                }
+
+                const dropItem = document.createElement('div');
+                dropItem.className = 'dropdown-item';
+                dropItem.innerHTML = `<span>${escapeHtml(player.avatar)}</span> <span>${escapeHtml(player.name)} ${player.isBot ? '🤖' : ''}</span>`;
+                dropItem.onclick = () => selectDuelTarget(id);
+                dropdownMenu.appendChild(dropItem);
+
+                const badge = document.createElement('div');
+                badge.className = 'neighbor-badge';
+                badge.onclick = () => openActionModal(id, player.name, player.avatar);
+                badge.innerHTML = `
+                    ${player.isBot ? '<div class="birthday-badge">🤖</div>' : ''}
+                    <div class="neighbor-avatar">${escapeHtml(player.avatar)}</div>
+                    <div class="neighbor-name">${escapeHtml(player.name)}</div>
+                `;
+                gridEl.appendChild(badge);
+            }
+        });
+
+        function joinGame() {
+            const name = document.getElementById('username').value.trim() || 'Gost';
+            const birthdayPassword = document.getElementById('birthday-password').value || 'tr0kut.design';
+
+            activeSession = {
+                name,
+                avatar: selectedAvatar,
+                isBirthdayGirl: true,
+                birthdayPassword
+            };
+
+            socket.emit('join', {
+                name,
+                avatar: selectedAvatar,
+                isBirthdayGirl: true,
+                birthdayPassword
+            });
+        }
+
+        function triggerQuiz() {
+            if (quizCountdownInterval) clearInterval(quizCountdownInterval);
+            socket.emit('start_quiz');
+        }
+
+        function markQuizReady() {
+            if (iAmReadyForQuiz) return;
+            iAmReadyForQuiz = true;
+            socket.emit('quiz_player_ready');
+            const btn = document.getElementById('quiz-ready-btn');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerText = '✅ Spreman/na sam!';
+            }
+        }
+
+        function renderReadyModal(stateData) {
+            document.getElementById('modal-icon').innerText = '🧠';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'QUIZZ TIME — SPREMNOST!';
+
+            const waitingText = stateData.waitingNames.length > 0
+                ? stateData.waitingNames.map(escapeHtml).join(', ')
+                : 'Niko (svi su spremni!)';
+
+            const readyText = stateData.readyNames.length > 0
+                ? stateData.readyNames.map(escapeHtml).join(', ')
+                : 'Još niko';
+
+            document.getElementById('modal-msg').innerHTML = `
+                Svako pitanje traje fiksnih <b>10 sekundi</b> — svi igraju u istom ritmu!<br>
+                <div class="ready-status-box">
+                    <div style="margin-bottom: 6px;">📊 <b>Spremni:</b> ${stateData.readyCount} / ${stateData.totalCount}</div>
+                    <div style="margin-bottom: 6px; color: #2e7d32;">✅ <b>Spremni su:</b> ${readyText}</div>
+                    <div style="color: #c62828;">⏳ <b>Čekaju se:</b> ${waitingText}</div>
+                </div>
+            `;
+
+            document.getElementById('modal-buttons').innerHTML = `
+                <button id="quiz-ready-btn" class="sims-btn" onclick="markQuizReady()" ${iAmReadyForQuiz ? 'disabled' : ''} style="background: linear-gradient(to bottom, #43a047, #2e7d32); border-color: #81c784; margin-top:0;">
+                    ${iAmReadyForQuiz ? '✅ Spreman/na sam!' : '🙌 Spreman/na sam!'}
+                </button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+        }
+
+        socket.on('quiz_ready_prompt', (data) => {
+            if (quizCountdownInterval) clearInterval(quizCountdownInterval);
+            iAmReadyForQuiz = false;
+            quizHostName = data.hostName;
+            playSoundQuiz();
+            renderReadyModal({
+                readyCount: 0,
+                totalCount: 4,
+                readyNames: [],
+                waitingNames: [data.hostName]
+            });
+        });
+
+        socket.on('quiz_ready_update', (data) => {
+            renderReadyModal(data);
+        });
+
+        socket.on('quiz_question', (data) => {
+            if (quizCountdownInterval) clearInterval(quizCountdownInterval);
+            playSoundQuiz();
+
+            let timeLeft = data.durationSec || 10;
+
+            document.getElementById('modal-icon').innerText = data.isVote ? '🗳️' : '🧠';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = data.isVote ? 'GLASANJE UŽIVO' : `PITANJE ${data.index + 1} / ${data.total}`;
+
+            let optionsHtml = `<div id="quiz-options-list" style="margin-top: 10px;">`;
+            data.options.forEach((opt, idx) => {
+                optionsHtml += `<button class="quiz-option-btn" onclick="submitQuizAnswer(${data.index}, ${idx}, this)">${escapeHtml(opt)}</button>`;
+            });
+            optionsHtml += `</div><div id="quiz-feedback" style="font-size: 12.5px; font-weight: 800; margin-top: 6px; min-height: 18px;"></div>`;
+
+            document.getElementById('modal-msg').innerHTML = `
+                <div class="quiz-timer-badge">⏳ Fiksno vreme: <span id="quiz-timer-sec">${timeLeft}</span>s</div>
+                <div style="font-size: 16px; font-weight: 900; color: var(--sims-text-dark); margin-bottom: 8px;">${escapeHtml(data.question)}</div>
+                ${optionsHtml}
+            `;
+            document.getElementById('modal-buttons').innerHTML = '';
+            document.getElementById('notification-modal').style.display = 'flex';
+
+            quizCountdownInterval = setInterval(() => {
+                timeLeft = Math.max(0, timeLeft - 1);
+                const timerEl = document.getElementById('quiz-timer-sec');
+                if (timerEl) {
+                    timerEl.innerText = timeLeft;
+                }
+                if (timeLeft <= 0) {
+                    clearInterval(quizCountdownInterval);
+                }
+            }, 1000);
+        });
+
+        function submitQuizAnswer(questionIndex, optionIndex, btnEl) {
+            const allBtns = document.querySelectorAll('.quiz-option-btn');
+            allBtns.forEach(b => b.disabled = true);
+            btnEl.classList.add('selected-opt');
+            socket.emit('quiz_answer', { questionIndex, optionIndex });
+        }
+
+        socket.on('quiz_answer_ack', (data) => {
+            const feedbackEl = document.getElementById('quiz-feedback');
+            if (!feedbackEl) return;
+            feedbackEl.style.color = '#1565C0';
+            feedbackEl.innerText = data.isVote
+                ? '✅ Glas zabeležen! Svi nastavljaju zajedno po isteku 10s.'
+                : '✅ Odgovor sačuvan! Čekamo kraj 10s da svi pređu zajedno.';
+        });
+
+        socket.on('quiz_vote_result', (data) => {
+            if (quizCountdownInterval) clearInterval(quizCountdownInterval);
+            document.getElementById('modal-icon').innerText = '🗳️';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'REZULTAT GLASANJA';
+            document.getElementById('modal-msg').innerHTML = `
+                Najviše glasova dobilo je:<br><br>
+                <span style="font-size: 16px; font-weight: 900; color: #ad1457; display: block; padding: 10px; background: #fce4ec; border-radius: 14px;">${escapeHtml(data.winningOption)}</span>
+            `;
+            document.getElementById('modal-buttons').innerHTML = '';
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundQuiz();
+        });
+
+        socket.on('quiz_end_host', (data) => {
+            if (quizCountdownInterval) clearInterval(quizCountdownInterval);
+            launchConfetti(55);
+            document.getElementById('modal-icon').innerText = '🏆';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'STATISTIKA ZA SLAVLJENIKA/CU';
+            document.getElementById('modal-msg').innerHTML = `
+                <div style="text-align: left; background: #f4f9fc; padding: 13px; border-radius: 16px; border: 1px solid #b8d4e5; margin-bottom: 12px; font-size: 13px; line-height: 1.55;">
+                    <div style="font-size: 15px; font-weight: 900; color: var(--sims-green-glow); margin-bottom: 8px;">
+                        ${escapeHtml(data.hostAvatar)} ${escapeHtml(data.hostName)} — Rezime kviza
+                    </div>
+                    <div>🎯 <b>Tačni odgovori:</b> ${escapeHtml(data.totalCorrect)} / ${escapeHtml(data.totalQuestions)} (${escapeHtml(data.accuracyPct)}%)</div>
+                    <div>⚡ <b>Najbrži tačni odgovori:</b> ${escapeHtml(data.firstCorrect)}</div>
+                    <div>👥 <b>Aktivni igrači u sobi:</b> ${escapeHtml(data.activePlayersCount)} (+ 3 demo gosta)</div>
+                    <div style="margin-top: 8px; padding-top: 8px; border-top: 1px dashed #b8d4e5;">
+                        🤖 <b>Ostali u sobi:</b><br>
+                        <span style="color: #37474f; font-weight: 700;">${escapeHtml(data.botSummary)}</span>
+                    </div>
+                </div>
+                <div style="font-size: 12.5px; font-weight: 700; color: #37474f; background: rgba(255, 255, 255, 0.85); border: 1px solid #f48fb1; padding: 11px; border-radius: 14px; line-height: 1.45;">
+                    Kad poželiš ovakav interaktivni trenutak i vizuelni identitet za svoju proslavu, okupljanje ili brend priču — <b style="color:#ad1457;">@tr0kut</b> je tu da zajedno smislimo nešto posebno.
+                </div>
+            `;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #e91e63, #ad1457); margin-top:0;">Zatvori statistiku</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundWooHoo();
+        });
+
+        socket.on('quiz_end_player', (data) => {
+            if (quizCountdownInterval) clearInterval(quizCountdownInterval);
+            document.getElementById('modal-icon').innerText = '📊';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'TVOJ REZULTAT KVIZA';
+            document.getElementById('modal-msg').innerHTML = `
+                Pogodio/la si:<br><br>
+                <span style="font-size: 28px; font-weight: 900; color: var(--sims-bright-blue);">${escapeHtml(data.totalCorrect)} / ${escapeHtml(data.totalQuestions)}</span><br>
+                <span style="font-size: 13px; color: #616161;">pitanja u demo kvizu!</span>
+            `;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="margin-top:0;">Nazad na demo</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundWooHoo();
+        });
+
+        socket.on('sync_cooldowns', (data) => {
+            if (data.telephoneRemaining > 0) startGlobalTimer('telephone-btn', '📞 Gluvi telefoni', data.telephoneRemaining);
+            if (data.woohooRemaining > 0) startGlobalTimer('chaos-btn', '🗣️ WooHoo', data.woohooRemaining);
+            if (data.duelRemaining > 0) startDuelTimer(data.duelRemaining);
+        });
+
+        socket.on('duel_cooldown_started', (data) => {
+            startDuelTimer(data.durationMs);
+        });
+
+        function startDuelTimer(durationMs) {
+            const btn = document.getElementById('duel-main-btn');
+            if (!btn) return;
+            if (duelTimerInterval) clearInterval(duelTimerInterval);
+
+            btn.disabled = true;
+            let timeLeft = Math.max(1, Math.ceil(durationMs / 1000));
+
+            const updateBtnLabel = () => {
+                btn.innerHTML = `<span>🍻 Izazovi na piće ⏳ ${timeLeft}s</span>`;
+            };
+
+            updateBtnLabel();
+            timeLeft--;
+
+            duelTimerInterval = setInterval(() => {
+                if (timeLeft < 0) {
+                    clearInterval(duelTimerInterval);
+                    duelTimerInterval = null;
+                    btn.disabled = false;
+                    btn.innerHTML = `<span>🍻 Izazovi na piće</span><span id="dropdown-arrow" style="font-size: 12px; transition: transform 0.2s;">▼</span>`;
+                    return;
+                }
+                updateBtnLabel();
+                timeLeft--;
+            }, 1000);
+        }
+
+        function openActionModal(id, name, avatar) {
+            selectedTargetId = id;
+            document.getElementById('target-sim-title').innerHTML = `${escapeHtml(avatar)} ${escapeHtml(name)}`;
+            document.getElementById('modal-custom-text').value = '';
+            document.getElementById('action-modal').style.display = 'flex';
+        }
+
+        function closeActionModal() {
+            document.getElementById('action-modal').style.display = 'none';
+            selectedTargetId = null;
+        }
+
+        function sendActionFromModal(action) {
+            if (!selectedTargetId) return;
+            socket.emit('interaction', { targetId: selectedTargetId, action });
+            closeActionModal();
+        }
+
+        function sendCustomActionFromModal() {
+            if (!selectedTargetId) return;
+            const input = document.getElementById('modal-custom-text');
+            const customText = input.value.trim();
+            if (!customText) return alert('Unesi tekst akcije!');
+            socket.emit('interaction', { targetId: selectedTargetId, action: 'custom', customText });
+            closeActionModal();
+        }
+
+        function toggleDuelDropdown() {
+            const menu = document.getElementById('duel-dropdown-menu');
+            const arrow = document.getElementById('dropdown-arrow');
+            if (menu.style.display === 'flex') {
+                menu.style.display = 'none';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            } else {
+                menu.style.display = 'flex';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+            }
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.closest('.dropdown-container')) {
+                const menu = document.getElementById('duel-dropdown-menu');
+                const arrow = document.getElementById('dropdown-arrow');
+                if (menu) {
+                    menu.style.display = 'none';
+                    if (arrow) arrow.style.transform = 'rotate(0deg)';
+                }
+            }
+        };
+
+        function selectDuelTarget(targetId) {
+            document.getElementById('duel-dropdown-menu').style.display = 'none';
+            const arrow = document.getElementById('dropdown-arrow');
+            if (arrow) arrow.style.transform = 'rotate(0deg)';
+            socket.emit('drink_duel', { targetId });
+        }
+
+        function respondDuel(response) {
+            socket.emit('duel_response', { response });
+            document.getElementById('notification-modal').style.display = 'none';
+        }
+
+        function closeChaosModal() {
+            socket.emit('woohoo_shouted');
+            document.getElementById('notification-modal').style.display = 'none';
+        }
+
+        function triggerChaos() {
+            socket.emit('woohoo_chaos');
+        }
+
+        socket.on('woohoo_cooldown_started', (data) => {
+            startGlobalTimer('chaos-btn', '🗣️ WooHoo', data.durationMs);
+        });
+
+        function triggerTelephone() {
+            socket.emit('start_telephone_game');
+        }
+
+        socket.on('telephone_cooldown_started', (data) => {
+            startGlobalTimer('telephone-btn', '📞 Gluvi telefoni', data.durationMs);
+        });
+
+        function startGlobalTimer(btnId, baseText, durationMs) {
+            const btn = document.getElementById(btnId);
+            if (!btn) return;
+            if (globalTimers[btnId]) clearInterval(globalTimers[btnId]);
+
+            btn.disabled = true;
+            let timeLeft = Math.max(1, Math.ceil(durationMs / 1000));
+
+            const updateLabel = () => {
+                btn.innerText = `${baseText} ⏳ ${timeLeft}s`;
+            };
+
+            updateLabel();
+            timeLeft--;
+
+            globalTimers[btnId] = setInterval(() => {
+                if (timeLeft < 0) {
+                    clearInterval(globalTimers[btnId]);
+                    delete globalTimers[btnId];
+                    btn.disabled = false;
+                    btn.innerText = baseText;
+                    return;
+                }
+                updateLabel();
+                timeLeft--;
+            }, 1000);
+        }
+
+        function playSoundWooHoo() { playTones([523.25, 659.25, 783.99], 'triangle', 0.12); }
+        function playSoundDuel() { playTones([300, 450, 600], 'sawtooth', 0.1); }
+        function playSoundBalzamovan() { playTones([200, 150, 100], 'square', 0.2); }
+        function playSoundTelephone() { playTones([400, 600, 800, 1000], 'sine', 0.08); }
+        function playSoundQuiz() { playTones([440, 554.37, 659.25, 880], 'sine', 0.09); }
+
+        function playTones(frequencies, type, interval) {
+            try {
+                const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                frequencies.forEach((freq, index) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = type;
+                    osc.frequency.setValueAtTime(freq, audioCtx.currentTime + (index * interval));
+                    gain.gain.setValueAtTime(0.25, audioCtx.currentTime + (index * interval));
+                    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + (index * interval) + (interval * 1.5));
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(audioCtx.currentTime + (index * interval));
+                    osc.stop(audioCtx.currentTime + (index * interval) + (interval * 1.5));
+                });
+            } catch (e) {}
+        }
+
+        socket.on('play_duel_sound', () => playSoundDuel());
+
+        socket.on('trigger_spam_popup', (data) => {
+            document.getElementById('modal-icon').innerText = '⚡';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = data.title;
+            document.getElementById('modal-msg').innerHTML = `<span style="font-size: 18px; font-weight: bold; color: #d32f2f;">${escapeHtml(data.message)}</span>`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #e91e63, #c2185b); margin-top:0;">Razumem! 😅</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+        });
+
+        socket.on('action_log', (data) => appendLogEntry(data, true));
+
+        socket.on('trigger_duel_popup', (data) => {
+            document.getElementById('modal-icon').innerText = '🍻';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'IZAZOV';
+            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.senderName)}</b> te je izazvao na piće!`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="respondDuel('rejected')" style="background: linear-gradient(to bottom, #9e9e9e, #616161); border-color: #bdbdbd; margin-top:0;">Odbij</button>
+                <button class="sims-btn" onclick="respondDuel('accepted')" style="background: linear-gradient(to bottom, #ff9800, #f57c00); border-color: #ffcc80; margin-top:0;">Prihvati!</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundDuel();
+        });
+
+        socket.on('trigger_chaos_popup', (data) => {
+            document.getElementById('modal-icon').innerText = '🗣️';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'WOOHOO CHAOS';
+            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.senderName)}</b> je pokrenuo WooHoo!<br><br><span style="font-size: 17px; font-weight: bold; color: #37474f;">Sims reč:</span><br><span style="font-size: 24px; font-weight: 800; color: #8e24aa; letter-spacing: 1.5px; display: inline-block; margin: 6px 0;">"${escapeHtml(data.word)}"</span>`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="closeChaosModal()" style="background: linear-gradient(to bottom, #8e24aa, #6a1b9a); border-color: #ba68c8; margin-top:0;">DEREEEM SE! 🔥</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundWooHoo();
+        });
+
+        socket.on('trigger_balzamovan', () => {
+            document.getElementById('modal-icon').innerText = '🥴';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'MAKSIMUM!';
+            document.getElementById('modal-msg').innerHTML = `<span style="font-size: 18px; color: #d32f2f; font-weight: bold;">Dostignut je maksimum!</span>`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #e91e63, #c2185b); margin-top:0;">U redu</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundBalzamovan();
+        });
+
+        socket.on('telephone_rules_popup', (data) => {
+            document.getElementById('modal-icon').innerText = '📞';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'IGRA: GLUVI TELEFONI';
+            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.triggerName)}</b> je pokrenuo igru Gluvi telefoni!<br><br>Tajnu Sims frazu zna <b>${escapeHtml(data.starterName)}</b>, a krajnji primalac je <b>${escapeHtml(data.typistName)}</b>.`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #00acc1, #00838f); margin-top:0;">Jasno! Idemo!</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundTelephone();
+        });
+
+        socket.on('telephone_role_starter', (data) => {
+            document.getElementById('modal-icon').innerText = '🤫';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'TAJNA SIMS FRAZA';
+            document.getElementById('modal-msg').innerHTML = `Tajna Sims fraza u demo rundi je:<br><br><span style="font-size: 22px; font-weight: 800; color: #2e7d32; letter-spacing: 1px;">"${escapeHtml(data.phrase)}"</span>`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #43a047, #2e7d32); margin-top:0;">Razumem!</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundTelephone();
+        });
+
+        socket.on('telephone_role_typist', () => {
+            document.getElementById('modal-icon').innerText = '⌨️';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'FINALNI KUCAČ';
+            document.getElementById('modal-msg').innerHTML = `<input type="text" id="telephone-input" placeholder="Ukucaj frazu..." autocapitalize="none" autocomplete="off" autocorrect="off" spellcheck="false" style="margin-top: 10px; margin-bottom: 0;">`;
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="submitTelephoneGuess()" style="background: linear-gradient(to bottom, #e91e63, #c2185b); margin-top:0;">Pošalji frazu!</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundTelephone();
+        });
+
+        function submitTelephoneGuess() {
+            const input = document.getElementById('telephone-input');
+            if (!input) return;
+            const guess = input.value.trim();
+            if (!guess) return alert('Ukucaj nešto!');
+            socket.emit('telephone_submit', { guess });
+            document.getElementById('notification-modal').style.display = 'none';
+        }
+
+        socket.on('telephone_result', (data) => {
+            document.getElementById('modal-icon').innerText = data.success ? '🏆' : '🍻';
+            document.getElementById('modal-title').style.color = '#e65100';
+            document.getElementById('modal-title').innerText = 'GLUVI TELEFONI';
+            document.getElementById('modal-msg').innerHTML = escapeHtml(data.message);
+            document.getElementById('modal-buttons').innerHTML = `
+                <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #ff9800, #f57c00); margin-top:0;">Nazad na demo</button>
+            `;
+            document.getElementById('notification-modal').style.display = 'flex';
+            playSoundTelephone();
+        });
+
+        function saveLog() {
+            const logBox = document.getElementById('log');
+            const entries = logBox.querySelectorAll('.log-item');
+            if (entries.length === 0) return alert('Dnevnik je prazan!');
+
+            let text = "=== TROKUT PARTY APP DNEVNIK ===\n\n";
+            entries.forEach(e => text += e.innerText + "\n");
+
+            const blob = new Blob(["\uFEFF" + text], { type: 'text/plain;charset=utf-8' });
+            const url = URL.createObjectURL(blob);
+
+            try {
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'trokut-party-app-dnevnik.txt';
+                a.style.display = 'none';
+                document.body.appendChild(a);
+                a.click();
+
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 1500);
+            } catch (err) {
+                window.open(url, '_blank');
+            }
+        }
+    </script>
+</body>
+</html>
