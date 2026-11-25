@@ -851,7 +851,7 @@ io.on('connection', (socket) => {
     }
     syncAllPlayersToMemory();
 
-    recordLogEntry(`🗣️ WOOHOO CHAOS: Svi viču Sims reč -> "${randomWord}"!`, '🗣️');
+    recordLogEntry(`🔤 SLOVO, NA SLOVO..!: Svi viču reč -> "${randomWord}"!`, '🔤');
 
     for (const id in players) {
       if (!lobbySockets.has(id)) {
@@ -866,7 +866,7 @@ io.on('connection', (socket) => {
       if (chosenBot) {
         chosenBot.drunk = Math.min(100, chosenBot.drunk + 10);
         bots[chosenBot.id] = chosenBot;
-        recordLogEntry(`🚨 WOOHOO REZULTAT: ${chosenBot.name} je poslednji uzviknuo "${activeWooHoo.word}"!`, '🤡');
+        recordLogEntry(`🚨 SLOVO, NA SLOVO..! REZULTAT: ${chosenBot.name} je poslednji uzviknuo "${activeWooHoo.word}"!`, '🤡');
         io.emit('update_players', getCombinedEntities());
       }
       activeWooHoo = null;
