@@ -38,7 +38,7 @@
             animation: calmDiagonalWave 18s ease-in-out infinite;
             color: var(--sims-text-dark);
             margin: 0;
-            padding: 20px 15px;
+            padding: 20px 15px 76px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -387,6 +387,29 @@
             opacity: 1;
         }
 
+        button.lobby-info-btn {
+            background: rgba(255, 255, 255, 0.75);
+            color: var(--sims-text-dark);
+            border: 2px solid rgba(255, 255, 255, 0.95);
+            padding: 10px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 800;
+            width: 100%;
+            font-size: 13px;
+            font-family: inherit;
+            letter-spacing: 0.4px;
+            box-shadow: 0 4px 14px rgba(0, 50, 100, 0.14);
+            transition: all 0.2s ease;
+            margin-top: 12px;
+        }
+
+        button.lobby-info-btn:hover {
+            background: rgba(255, 255, 255, 0.95);
+            border-color: var(--sims-bright-blue);
+            transform: translateY(-1px);
+        }
+
         .quiz-option-btn {
             background: rgba(255, 255, 255, 0.94);
             border: 2px solid #90caf9;
@@ -623,6 +646,166 @@
             100% { transform: scale(1); opacity: 1; }
         }
 
+        /* Info modal sa tabovima (Ideja, Kako radi, Paketi) */
+        #trokut-info-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 30, 60, 0.58);
+            backdrop-filter: blur(7px);
+            -webkit-backdrop-filter: blur(7px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1001;
+            padding: 18px;
+        }
+
+        #trokut-info-modal.is-open {
+            display: flex;
+        }
+
+        .trokut-info-card {
+            background: rgba(255, 255, 255, 0.95);
+            border: 2px solid #64b5f6;
+            border-radius: 22px;
+            padding: 20px 18px;
+            width: 100%;
+            max-width: 420px;
+            max-height: 84vh;
+            overflow-y: auto;
+            color: var(--sims-text-dark);
+            box-shadow: 0 16px 40px rgba(0, 50, 100, 0.35);
+            animation: bounceIn 0.24s ease-out;
+        }
+
+        .trokut-info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        .trokut-info-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--sims-text-dark);
+        }
+
+        .trokut-info-close {
+            background: rgba(21, 101, 192, 0.1);
+            border: 1px solid #90caf9;
+            color: var(--sims-text-dark);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 17px;
+            font-weight: 900;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .trokut-info-tabs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            background: rgba(21, 101, 192, 0.1);
+            padding: 4px;
+            border-radius: 15px;
+            margin-bottom: 14px;
+        }
+
+        .trokut-info-tab {
+            border: none;
+            background: transparent;
+            color: var(--sims-text-muted);
+            font-family: inherit;
+            font-size: 12.5px;
+            font-weight: 800;
+            padding: 8px 6px;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.18s ease;
+        }
+
+        .trokut-info-tab.is-active {
+            background: linear-gradient(to bottom, #2196F3, #1565C0);
+            color: #ffffff;
+            box-shadow: 0 3px 10px rgba(21, 101, 192, 0.28);
+        }
+
+        .trokut-info-panel {
+            display: none;
+            font-size: 13.5px;
+            line-height: 1.5;
+            text-align: left;
+        }
+
+        .trokut-info-panel.is-active {
+            display: block;
+        }
+
+        .trokut-info-panel h4 {
+            margin: 0 0 8px;
+            font-size: 15px;
+            font-weight: 900;
+            color: var(--sims-bright-blue);
+        }
+
+        .trokut-info-panel p {
+            margin: 0 0 10px;
+            font-weight: 600;
+        }
+
+        .trokut-info-panel ul {
+            margin: 0 0 10px;
+            padding-left: 18px;
+        }
+
+        .trokut-info-panel li {
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .trokut-info-note {
+            margin-top: 10px;
+            padding-top: 10px;
+            border-top: 1px solid #d4e5f2;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: var(--sims-text-muted);
+        }
+
+        .floating-info-bar {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 10px;
+            z-index: 40;
+            display: flex;
+            justify-content: center;
+            padding: 0 14px;
+            pointer-events: none;
+        }
+
+        .floating-info-btn {
+            pointer-events: auto;
+            background: rgba(255, 255, 255, 0.88);
+            border: 2px solid #64b5f6;
+            color: var(--sims-text-dark);
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 7px 14px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 6px 18px rgba(0, 50, 100, 0.22);
+            backdrop-filter: blur(8px);
+        }
+
         .log-box {
             background: rgba(255, 255, 255, 0.55);
             padding: 12px;
@@ -742,6 +925,48 @@
         </div>
     </div>
 
+    <!-- INFO MODAL SA TABOVIMA -->
+    <div id="trokut-info-modal" role="dialog" aria-modal="true" aria-labelledby="trokut-info-modal-title">
+        <div class="trokut-info-card">
+            <div class="trokut-info-header">
+                <h2 class="trokut-info-title" id="trokut-info-modal-title">TROKUT PARTY APP</h2>
+                <button type="button" class="trokut-info-close" id="close-trokut-info-btn" aria-label="Zatvori">✕</button>
+            </div>
+
+            <div class="trokut-info-tabs" role="tablist">
+                <button type="button" class="trokut-info-tab is-active" data-info-tab="ideja" role="tab" aria-selected="true">Ideja</button>
+                <button type="button" class="trokut-info-tab" data-info-tab="kako-radi" role="tab" aria-selected="false">Kako radi</button>
+                <button type="button" class="trokut-info-tab" data-info-tab="paketi" role="tab" aria-selected="false">Paketi</button>
+            </div>
+
+            <div class="trokut-info-panel is-active" id="info-panel-ideja" role="tabpanel">
+                <h4>Ovde nas telefoni spajaju na žurci!</h4>
+                <p>TROKUT PARTY APP je zabavna aplikacija, koja te svojim igrama vodi od probijanja leda na žurci do bliskog grupnog smeha. Izaberi svoju sledeću akciju sa društvom, pokreni igru ili izazovi nekoga na piće! (Promo demo)</p>
+            </div>
+
+            <div class="trokut-info-panel" id="info-panel-kako-radi" role="tabpanel">
+                <h4>Od prvog skena do žurke koja ne staje</h4>
+                <ul>
+                    <li><strong>Ulaziš za sekund:</strong> Skeniraš QR kod, izabereš svog avatara i ime i već si na žurci, bez smaranja sa nalozima.</li>
+                    <li><strong>Razbudi ekipu:</strong> Biraj interakcije sa ostalima, pokreni “Slovo, na slovo..!” i “Gluve telefone!” ili “QUIZZ”, dok ti Live Dnevnik daje uvid šta se dešava na žurci i beleži kako ste se proveli.</li>
+                    <li><strong>Priča po tvojoj meri:</strong> Od samostalnog unosa sadržaja za igre, preko vizuelnog identiteta, pa do bonus igara za veće ili brendirane događaje, sve se prilagođava ekipi koja je tu.</li>
+                </ul>
+            </div>
+
+            <div class="trokut-info-panel" id="info-panel-paketi" role="tabpanel">
+                <h4>3 opcije za tvoj događaj</h4>
+                <ul>
+                    <li><strong>1. Starter (Sadržaj po tvojoj meri):</strong> Osnovna aplikacija kakva jeste, uz opciju da sam uneseš željeni sadržaj za igre i kviz (pitanja, odgovore i interne fore). Odlično za kućne žurke, rođendane i ekipe koje žele svoj humor uz pristupačniju cenu. (Po želji, izradu i unos sadržaja mogu preuzeti i ja kao dodatnu uslugu.)</li>
+                    <li><strong>2. Event (Vizuelni identitet):</strong> Sve iz Starter paketa uz vizuelnu customizaciju: Prilagođavanje izgleda, boja i vajba aplikacije tvom događaju ili temi, uz dogovor oko pratećih vizuala i QR materijala.</li>
+                    <li><strong>3. Pro / Custom (Pun identitet + Bonus igra):</strong> Sve iz prethodnih paketa uz dublje prilagođavanje i dodavanje bonus igre ili posebnog moda skrojenog baš za tvoj događaj, proslavu ili brend aktivaciju.</li>
+                </ul>
+                <div class="trokut-info-note">
+                    Svaki dogovor prilagođavamo tipu događaja, terminu i obimu izmena. Javi se na @tr0kut da se dogovorimo oko detalja.
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="plumbob-header">
         <div class="plumbob"></div>
         <h1>TROKUT <span class="logo-sims-green">PARTY</span> APP</h1>
@@ -802,6 +1027,10 @@
 
             <button class="sims-btn" onclick="joinGame()">Uđi na demo žurku</button>
             <div class="btn-hint">Demo šifra je već spremna — samo klikni i kreni sa testiranjem.</div>
+
+            <button type="button" class="lobby-info-btn" onclick="openTrokutInfoModal('ideja')">
+                ℹ️ Ideja, kako radi i paketi
+            </button>
         </div>
     </div>
 
@@ -832,13 +1061,13 @@
         <h3 style="margin-top: 24px;">Žurka eventovi</h3>
         <div style="margin-top: 12px; display: flex; flex-direction: column; gap: 12px;">
             <div>
-                <button id="chaos-btn" class="sims-btn" onclick="triggerChaos()" style="background: linear-gradient(to bottom, #8e24aa, #6a1b9a); border-color: #ba68c8; margin-top: 0;">🗣️ WooHoo</button>
-                <div class="btn-hint">Svi u glas viču Sims reč — brza grupna akcija koja diže zabavu.</div>
+                <button id="chaos-btn" class="sims-btn" onclick="triggerChaos()" style="background: linear-gradient(to bottom, #8e24aa, #6a1b9a); border-color: #ba68c8; margin-top: 0;">🔤 Slovo, na slovo..!</button>
+                <div class="btn-hint">Svi u glas viču reč — brza grupna akcija koja diže zabavu.</div>
             </div>
 
             <div>
                 <button id="telephone-btn" class="sims-btn" onclick="triggerTelephone()" style="background: linear-gradient(to bottom, #00acc1, #00838f); border-color: #4dd0e1; margin-top: 0;">📞 Gluvi telefoni</button>
-                <div class="btn-hint">Tajna Sims fraza kruži ekipom uživo — idealno za smeh i druženje.</div>
+                <div class="btn-hint">Tajna fraza kruži ekipom uživo — idealno za smeh i druženje.</div>
             </div>
 
             <div id="quiz-btn-container" style="display: block;">
@@ -867,6 +1096,12 @@
     <footer class="app-footer">
         Made by <a href="https://www.instagram.com/tr0kut/" target="_blank" rel="noopener noreferrer">@tr0kut</a>
     </footer>
+
+    <div class="floating-info-bar">
+        <button type="button" class="floating-info-btn" onclick="openTrokutInfoModal('ideja')">
+            ℹ️ Ideja · Kako radi · Paketi
+        </button>
+    </div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script>
@@ -986,7 +1221,7 @@
             if (!logBox || !data || !data.message) return;
 
             const item = document.createElement('div');
-            const isChaos = data.message.includes('WOOHOO') || data.message.includes('QUIZZ') || data.message.includes('SPREMNI');
+            const isChaos = data.message.includes('SLOVO, NA SLOVO') || data.message.includes('WOOHOO') || data.message.includes('QUIZZ') || data.message.includes('SPREMNI');
             const isDuel = data.message.includes('DUEL PIĆA') || data.message.includes('prihvatio') || data.message.includes('odbio');
             const isPhone = data.message.includes('GLUVI TELEFONI');
             const isSpam = data.message.includes('SPAM ALERT');
@@ -1285,7 +1520,7 @@
 
         socket.on('sync_cooldowns', (data) => {
             if (data.telephoneRemaining > 0) startGlobalTimer('telephone-btn', '📞 Gluvi telefoni', data.telephoneRemaining);
-            if (data.woohooRemaining > 0) startGlobalTimer('chaos-btn', '🗣️ WooHoo', data.woohooRemaining);
+            if (data.woohooRemaining > 0) startGlobalTimer('chaos-btn', '🔤 Slovo, na slovo..!', data.woohooRemaining);
             if (data.duelRemaining > 0) startDuelTimer(data.duelRemaining);
         });
 
@@ -1393,7 +1628,7 @@
         }
 
         socket.on('woohoo_cooldown_started', (data) => {
-            startGlobalTimer('chaos-btn', '🗣️ WooHoo', data.durationMs);
+            startGlobalTimer('chaos-btn', '🔤 Slovo, na slovo..!', data.durationMs);
         });
 
         function triggerTelephone() {
@@ -1485,10 +1720,10 @@
         });
 
         socket.on('trigger_chaos_popup', (data) => {
-            document.getElementById('modal-icon').innerText = '🗣️';
+            document.getElementById('modal-icon').innerText = '🔤';
             document.getElementById('modal-title').style.color = '#e65100';
-            document.getElementById('modal-title').innerText = 'WOOHOO CHAOS';
-            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.senderName)}</b> je pokrenuo WooHoo!<br><br><span style="font-size: 17px; font-weight: bold; color: #37474f;">Sims reč:</span><br><span style="font-size: 24px; font-weight: 800; color: #8e24aa; letter-spacing: 1.5px; display: inline-block; margin: 6px 0;">"${escapeHtml(data.word)}"</span>`;
+            document.getElementById('modal-title').innerText = 'SLOVO, NA SLOVO..!';
+            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.senderName)}</b> je pokrenuo igru Slovo, na slovo..!<br><br><span style="font-size: 17px; font-weight: bold; color: #37474f;">Zadana reč:</span><br><span style="font-size: 24px; font-weight: 800; color: #8e24aa; letter-spacing: 1.5px; display: inline-block; margin: 6px 0;">"${escapeHtml(data.word)}"</span>`;
             document.getElementById('modal-buttons').innerHTML = `
                 <button class="sims-btn" onclick="closeChaosModal()" style="background: linear-gradient(to bottom, #8e24aa, #6a1b9a); border-color: #ba68c8; margin-top:0;">DEREEEM SE! 🔥</button>
             `;
@@ -1512,7 +1747,7 @@
             document.getElementById('modal-icon').innerText = '📞';
             document.getElementById('modal-title').style.color = '#e65100';
             document.getElementById('modal-title').innerText = 'IGRA: GLUVI TELEFONI';
-            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.triggerName)}</b> je pokrenuo igru Gluvi telefoni!<br><br>Tajnu Sims frazu zna <b>${escapeHtml(data.starterName)}</b>, a krajnji primalac je <b>${escapeHtml(data.typistName)}</b>.`;
+            document.getElementById('modal-msg').innerHTML = `<b>${escapeHtml(data.triggerName)}</b> je pokrenuo igru Gluvi telefoni!<br><br>Tajnu frazu zna <b>${escapeHtml(data.starterName)}</b>, a krajnji primalac je <b>${escapeHtml(data.typistName)}</b>.`;
             document.getElementById('modal-buttons').innerHTML = `
                 <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #00acc1, #00838f); margin-top:0;">Jasno! Idemo!</button>
             `;
@@ -1523,8 +1758,8 @@
         socket.on('telephone_role_starter', (data) => {
             document.getElementById('modal-icon').innerText = '🤫';
             document.getElementById('modal-title').style.color = '#e65100';
-            document.getElementById('modal-title').innerText = 'TAJNA SIMS FRAZA';
-            document.getElementById('modal-msg').innerHTML = `Tajna Sims fraza u demo rundi je:<br><br><span style="font-size: 22px; font-weight: 800; color: #2e7d32; letter-spacing: 1px;">"${escapeHtml(data.phrase)}"</span>`;
+            document.getElementById('modal-title').innerText = 'TAJNA FRAZA';
+            document.getElementById('modal-msg').innerHTML = `Tajna fraza u demo rundi je:<br><br><span style="font-size: 22px; font-weight: 800; color: #2e7d32; letter-spacing: 1px;">"${escapeHtml(data.phrase)}"</span>`;
             document.getElementById('modal-buttons').innerHTML = `
                 <button class="sims-btn" onclick="document.getElementById('notification-modal').style.display='none'" style="background: linear-gradient(to bottom, #43a047, #2e7d32); margin-top:0;">Razumem!</button>
             `;
@@ -1592,6 +1827,56 @@
                 window.open(url, '_blank');
             }
         }
+
+        // Info modal sa tabovima (Ideja, Kako radi, Paketi)
+        const infoModal = document.getElementById('trokut-info-modal');
+        const closeInfoBtn = document.getElementById('close-trokut-info-btn');
+        const infoTabs = Array.from(document.querySelectorAll('.trokut-info-tab'));
+        const infoPanels = {
+            ideja: document.getElementById('info-panel-ideja'),
+            'kako-radi': document.getElementById('info-panel-kako-radi'),
+            paketi: document.getElementById('info-panel-paketi')
+        };
+
+        function setTrokutInfoTab(tabName) {
+            infoTabs.forEach(btn => {
+                const isActive = btn.dataset.infoTab === tabName;
+                btn.classList.toggle('is-active', isActive);
+                btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+            });
+            Object.entries(infoPanels).forEach(([key, panel]) => {
+                if (panel) panel.classList.toggle('is-active', key === tabName);
+            });
+        }
+
+        function openTrokutInfoModal(initialTab = 'ideja') {
+            setTrokutInfoTab(initialTab);
+            if (infoModal) infoModal.classList.add('is-open');
+        }
+
+        function closeTrokutInfoModal() {
+            if (infoModal) infoModal.classList.remove('is-open');
+        }
+
+        if (closeInfoBtn) {
+            closeInfoBtn.addEventListener('click', closeTrokutInfoModal);
+        }
+
+        if (infoModal) {
+            infoModal.addEventListener('click', (e) => {
+                if (e.target === infoModal) closeTrokutInfoModal();
+            });
+        }
+
+        infoTabs.forEach(btn => {
+            btn.addEventListener('click', () => setTrokutInfoTab(btn.dataset.infoTab));
+        });
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && infoModal && infoModal.classList.contains('is-open')) {
+                closeTrokutInfoModal();
+            }
+        });
     </script>
 </body>
 </html>
